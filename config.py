@@ -16,7 +16,11 @@ class Config:
     if database_url and database_url.startswith('postgres://'):
         database_url = database_url.replace('postgres://', 'postgresql://', 1)
     
-    SQLALCHEMY_DATABASE_URI = database_url or f"sqlite:///{(basedir / 'instance' / 'fake_job_detection.db').as_posix()}"
+    if not database_url and os.environ.get('VERCEL'):
+        # On Vercel serverless, /tmp is the only writable directory
+        SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/fake_job_detection.db"
+    else:
+        SQLALCHEMY_DATABASE_URI = database_url or f"sqlite:///{(basedir / 'instance' / 'fake_job_detection.db').as_posix()}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Request limits
