@@ -10,3 +10,4 @@ if str(basedir) not in sys.path:
 from app import create_app
 
 app = create_app('production' if os.environ.get('VERCEL') else 'development')
+
