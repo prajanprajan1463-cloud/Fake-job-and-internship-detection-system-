@@ -106,6 +106,13 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--accent-cyan) !important;
 }
 
+.navbar-brand img {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
 .nav-link {
   color: #cbd5e1 !important;
   font-size: 0.925rem;
@@ -504,6 +511,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .app-footer a:hover {
   color: var(--accent-cyan);
+}
+
+.app-footer img {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .footer-heading {

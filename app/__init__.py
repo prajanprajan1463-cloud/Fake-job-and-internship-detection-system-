@@ -39,6 +39,24 @@ def create_app(config_name: str = None) -> Flask:
     # Register error handlers
     register_error_handlers(app)
 
+    # Static image fallback routes for serverless and CDN flexibility
+    @app.route('/img/<path:filename>')
+    def serve_img_fallback(filename):
+        from flask import send_from_directory
+        for folder in [
+            os.path.join(app.root_path, 'static', 'img'),
+            os.path.join(os.path.dirname(app.root_path), 'public', 'img'),
+            os.path.join(os.path.dirname(app.root_path), 'public', 'static', 'img')
+        ]:
+            if os.path.exists(os.path.join(folder, filename)):
+                return send_from_directory(folder, filename)
+        return render_template('errors/404.html'), 404
+
+    @app.route('/logo.svg')
+    def serve_logo_root():
+        from flask import send_from_directory
+        return send_from_directory(os.path.join(app.root_path, 'static', 'img'), 'logo.svg')
+
     # Global template context processor
     @app.context_processor
     def inject_global_template_vars():
